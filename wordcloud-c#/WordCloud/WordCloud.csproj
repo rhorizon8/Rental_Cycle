@@ -9,7 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="MeCab.DotNet" Version="1.2.0" />
-    <PackageReference Include="AngleSharp" Version="1.0.7" />
+    <PackageReference Include="AngleSharp" Version="1.1.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
   </ItemGroup>
 
 </Project>
