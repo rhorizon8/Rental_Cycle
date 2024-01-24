@@ -7,11 +7,22 @@ using System.Text.RegularExpressions;
 using AngleSharp.Html.Parser;
 
 
-await GetWebContentsAsync();
+//await GetWebContentsAsync();
 await Wakati();
 
 async Task Wakati()
 {
+    HashSet<string> ignoreWords = [];
+    using (var reader = new StreamReader("./ignoreWords.txt"))
+    {
+        while (!reader.EndOfStream)
+        {
+            var word = reader.ReadLine();
+            if(!string.IsNullOrEmpty(word)){
+                ignoreWords.Add(word);
+            }
+        }
+    }
     var sentence = "";
 
     using (var reader = new StreamReader("web-html-body.txt"))
@@ -26,12 +37,17 @@ async Task Wakati()
 
     foreach (var node in tagger.ParseToNodes(sentence))
     {
-        if (node.CharType > 0)
+        if (node.CharType > 0 && !ignoreWords.Contains(node.Surface))
         {
             var features = node.Feature.Split(',');
-            if (features[0] == "名詞")
+            if (features[0] == "名詞" || features[0] == "副詞")
             {
                 builder.Append($"{node.Surface} ");
+            }
+            else if (features[0] == "形容詞" || features[0] == "動詞")
+            {
+                if (!ignoreWords.Contains(features[6]))
+                    builder.Append($"{features[6]} ");
             }
         }
     }
