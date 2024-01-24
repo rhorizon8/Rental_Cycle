@@ -12,7 +12,7 @@ await Wakati();
 
 async Task Wakati()
 {
-    HashSet<string> ignoreWords = [];
+    HashSet<string> ignoreWords = ["ある","なる","いる","する","の","れる","られる","できる"];
     using (var reader = new StreamReader("./ignoreWords.txt"))
     {
         while (!reader.EndOfStream)
